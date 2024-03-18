@@ -222,6 +222,8 @@ const getAllUsersBooking = async (req, res) => {
                         },
                         {
                             $project: {
+                                floorId: '$_id',
+                                slotId: '$slots._id',
                                 floorNumber: '$floorNumber',
                                 slotNumber: '$slots.slotNumber',
                                 date: '$slots.date',
