@@ -204,7 +204,9 @@ const getAllUsersBooking = async (req, res) => {
             },
             {
                 $match: {
-                    'slots.userId': { $exists: true }
+                    'slots.userId': { $exists: true }, 
+                    'slots.userId': { $ne: null }, 
+                    'slots.userId': { $ne: '' } 
                 }
             },
             {
