@@ -204,9 +204,11 @@ const getAllUsersBooking = async (req, res) => {
             },
             {
                 $match: {
-                    'slots.userId': { $exists: true }, 
-                    'slots.userId': { $ne: null }, 
-                    'slots.userId': { $ne: '' } 
+                    $and: [
+                        { 'slots.userId': { $exists: true } }, // Ensure slots.userId exists
+                        { 'slots.userId': { $ne: null } }, // Filter out null userId
+                        { 'slots.userId': { $ne: '' } } // Filter out empty string userId
+                    ]
                 }
             },
             {
@@ -258,6 +260,7 @@ const getAllUsersBooking = async (req, res) => {
         res.status(500).json({ message: 'Server Error' })
     }
 }
+
 
 
 export { createBooking, cancelBooking, extendBooking, updateBooking, getAllBookingsByUser, getAllUsersBooking };
