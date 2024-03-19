@@ -256,9 +256,8 @@ const getAllUsersBooking = async (req, res) => {
         }
 
         res.status(200).json({ message: 'Bookings found', data, hasMore });
-    } catch (err) {
-        console.error('error in fetching', err);
-        res.status(500).json({ message: 'Server Error', err})
+    } catch (err) {;
+        res.status(500).json({ message: 'Server Error'})
     }
 }
 
