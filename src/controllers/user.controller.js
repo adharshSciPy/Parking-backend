@@ -143,11 +143,11 @@ const getAllUsers = async (req, res) => {
         const isHasMore = (page * limit) <= totalCount;
 
         if (allUsers?.length === 0) {
-            return res.status(204).json({ message: 'No content' })
+            return res.status(200).json({ message: 'No Useres found', data: [] })
         }
         res.status(200).json({ status: 200, message: 'Users found', data: allUsers, isHasMore });
     } catch (err) {
-        res.status(500).json({ status: 500, message: 'Server Error', err });
+        res.status(500).json({ status: 500, message: 'Server Error' });
     }
 }
 

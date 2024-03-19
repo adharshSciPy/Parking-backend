@@ -252,7 +252,7 @@ const getAllUsersBooking = async (req, res) => {
         const hasMore = (page * limit) <= totalCount[0]?.total;
 
         if (!data || data.length === 0) {
-            return res.status(200).json({ message: 'No bookings found' });
+            return res.status(200).json({ message: 'No bookings found', data: [] });
         }
 
         res.status(200).json({ message: 'Bookings found', data, hasMore });
