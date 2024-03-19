@@ -182,7 +182,7 @@ const getAllBookingsByUser = async (req, res) => {
         ]);
 
         if (!bookings || bookings.length === 0) {
-            return res.status(200).json({ message: 'No bookings for this user' });
+            return res.status(200).json({ message: 'No bookings for this user', data: [] });
         }
 
         res.status(200).json({ message: 'Booking found', data: bookings });
@@ -256,8 +256,9 @@ const getAllUsersBooking = async (req, res) => {
         }
 
         res.status(200).json({ message: 'Bookings found', data, hasMore });
-    } catch (err) {;
-        res.status(500).json({ message: 'Server Error'})
+    } catch (err) {
+        ;
+        res.status(500).json({ message: 'Server Error' })
     }
 }
 
