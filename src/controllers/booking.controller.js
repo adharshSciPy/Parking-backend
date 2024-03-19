@@ -68,11 +68,11 @@ const cancelBooking = async (req, res) => {
         slot.userId = null;
 
         await floor.save();
-        const data = await Floor.find();
-        return res.status(200).json({ message: "Booking cancel succesfully", data });
+        return res.status(200).json({ message: "Booking cancel succesfully" });
     }
     catch (err) {
-        res.send(500).json({ message: 'Server Error' })
+        console.log('ERROR', err)
+        res.send(500).json({ message: 'Server Error', error: err });
     }
 }
 
@@ -249,7 +249,7 @@ const getAllUsersBooking = async (req, res) => {
 
         const [{ data, totalCount }] = await Floor.aggregate(pipeline);
 
-        const hasMore = (page * limit) <= totalCount[0].total;
+        const hasMore = (page * limit) <= totalCount[0]?.total;
 
         if (!data || data.length === 0) {
             return res.status(200).json({ message: 'No bookings found' });
@@ -257,7 +257,8 @@ const getAllUsersBooking = async (req, res) => {
 
         res.status(200).json({ message: 'Bookings found', data, hasMore });
     } catch (err) {
-        res.status(500).json({ message: 'Server Error' })
+        console.error('error in fetching', err);
+        res.status(500).json({ message: 'Server Error', err})
     }
 }
 
