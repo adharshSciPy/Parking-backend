@@ -2,7 +2,7 @@ import { Floor } from "../models/floor.model.js";
 
 const createFloorAndSlot = async (req, res) => {
     try {
-        const { floorArray } = req.body;
+        const { floorArray, price } = req.body;
         const isEmptyFloor = !Array.isArray(floorArray) || floorArray.length === 0;
 
         // sanitizing inputs
@@ -22,6 +22,7 @@ const createFloorAndSlot = async (req, res) => {
 
             const newFloor = new Floor({
                 floorNumber: item.floorNumber,
+                price: price,
                 slots: newSlot
             });
 
@@ -38,7 +39,7 @@ const createFloorAndSlot = async (req, res) => {
 
 const updateFloorAndSlot = async (req, res) => {
     try {
-        const { floorArray } = req.body;
+        const { floorArray, price } = req.body;
         const isEmptyFloor = !Array.isArray(floorArray) || floorArray.length === 0;
 
         // Sanitizing inputs
@@ -67,6 +68,7 @@ const updateFloorAndSlot = async (req, res) => {
             } else {
                 const newFloor = new Floor({
                     floorNumber: floor.floorNumber,
+                    price: price,
                     slots: floor.slots
                 });
 

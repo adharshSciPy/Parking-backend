@@ -37,6 +37,10 @@ const floorSchema = new Schema({
         unique: true,
         required: [true, 'floor number is required']
     },
+    price: {
+        type: Number,
+        required: [true, 'Price is required']
+    },
     slots: [slotSchema]
 })
 
