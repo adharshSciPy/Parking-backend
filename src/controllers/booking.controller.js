@@ -42,7 +42,6 @@ const createBooking = async (req, res) => {
         const data = await Floor.find();
         return res.status(200).json({ message: "Slot Booked Succesfully", data });
     } catch (err) {
-        console.log('Error...', err)
         res.status(500).json({ message: "Server Error" });
     }
 };
@@ -248,8 +247,8 @@ const getAllUsersBooking = async (req, res) => {
         ];
 
         const [{ data, totalCount }] = await Floor.aggregate(pipeline);
-
-        const hasMore = (page * limit) <= totalCount[0]?.total;
+        console.log('PAGE', page, 'LIMIT', limit, 'ttoal', totalCount[0]?.total)
+        const hasMore = (page * limit) < totalCount[0]?.total;
 
         if (!data || data.length === 0) {
             return res.status(200).json({ message: 'No bookings found', data: [] });

@@ -140,7 +140,7 @@ const getAllUsers = async (req, res) => {
         const allUsers = await User.find({ role: 'user' }).select('-password').skip(skip).limit(limit)
         const totalCount = await User.countDocuments({ role: 'user' });
 
-        const isHasMore = (page * limit) <= totalCount;
+        const isHasMore = (page * limit) < totalCount;
 
         if (allUsers?.length === 0) {
             return res.status(200).json({ message: 'No Useres found', data: [] })
