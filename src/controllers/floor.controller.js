@@ -40,6 +40,7 @@ const createFloorAndSlot = async (req, res) => {
 const updateFloorAndSlot = async (req, res) => {
     try {
         const { floorArray, price } = req.body;
+        console.log('price', price)
         const isEmptyFloor = !Array.isArray(floorArray) || floorArray.length === 0;
 
         // Sanitizing inputs
@@ -62,6 +63,7 @@ const updateFloorAndSlot = async (req, res) => {
 
                 // Add new slots to existing floor
                 existingFloor.slots.push(...newSlotsToAdd);
+                existingFloor.price = price;
 
                 // Save the modified existing floor document
                 await existingFloor.save();
@@ -72,6 +74,7 @@ const updateFloorAndSlot = async (req, res) => {
                     slots: floor.slots
                 });
 
+                console.log('new floor: ' + newFloor)
                 // Save the new floor document
                 await newFloor.save();
             }
