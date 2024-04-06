@@ -247,7 +247,6 @@ const getAllUsersBooking = async (req, res) => {
         ];
 
         const [{ data, totalCount }] = await Floor.aggregate(pipeline);
-        console.log('PAGE', page, 'LIMIT', limit, 'ttoal', totalCount[0]?.total)
         const hasMore = (page * limit) < totalCount[0]?.total;
 
         if (!data || data.length === 0) {
