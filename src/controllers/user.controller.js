@@ -38,7 +38,6 @@ const tokenVerification = async (req, res) => {
         }
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if (err) {
-                console.log('error..', err)
                 if (err.name === 'TokenExpiredError') {
                     return res.status(401).json({ message: 'Token expired' });
                 } else {
@@ -49,7 +48,6 @@ const tokenVerification = async (req, res) => {
                 if (decoded) {
                     return res.status(200).json({ message: 'Token verification success', data: decoded })
                 }
-                console.log('respoinse', decoded)
             }
         });
 
