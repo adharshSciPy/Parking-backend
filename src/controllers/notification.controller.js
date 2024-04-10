@@ -1,8 +1,33 @@
 import moment from 'moment';
 import { Floor } from '../models/floor.model.js';
 
-const notifiyEndTime = async (req, res) => {
+const pushNotification = async (userId, res) => {
+    const fiveMinutesFromNow = moment().add(5, 'minutes');
+    const bookedSlots = await Floor.find({ 'slots.userId': userId });
+
+    for (const floor of bookedSlots) {
+        for (const slot of floor.slots) {
+            // Create the end time for the booked slot
+            const endTime = moment(`${slot.date} ${slot.endTime}`, 'DD-MM-YYYY HH:mm:ss');
+
+            // Check if the end time is less than 5 minutes from now
+            if (endTime.isBefore(fiveMinutesFromNow)) {
+                const message = {
+                    notification: 'Your booking is less than 5 minutes away!',
+                    floorNumber: floor.floorNumber,
+                    slotDetails: slot
+                };
+
+                res.write(`data: ${JSON.stringify(message)}\n\n`);
+            }
+        }
+    }
+}
+
+const notifyEndTime = async (req, res) => {
     let clients = [];
+
+    const { userId } = req.query;
 
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
@@ -11,11 +36,11 @@ const notifiyEndTime = async (req, res) => {
     const clientId = Date.now();
     res.flushHeaders();
 
-    res.write(`data: Welcome! Your client ID is: ${clientId}\n\n`);
+    // res.write(`data: Welcome! Your client ID is: ${clientId}\n\n`);
 
     const intervalId = setInterval(() => {
-        res.write(':heartbeat\n\n');
-    }, 10000);
+        pushNotification(userId, res); // Call pushNotification at regular intervals
+    }, 60000); // Adjust the interval as needed
 
     const client = { id: clientId, res };
     clients.push(client);
@@ -25,29 +50,14 @@ const notifiyEndTime = async (req, res) => {
         clients = clients.filter(c => c.id !== clientId);
     });
 
-    const fiveMinutesFromNow = moment().add(5, 'minutes');
-
     try {
-        const bookedSlots = await Floor.find({ 'slots.userId': { $exists: true } });
+        pushNotification(userId, res); // Call pushNotification immediately
 
-        // Iterate through each booked slot
-        for (const floor of bookedSlots) {
-            for (const slot of floor.slots) {
-                const endTime = moment(`${slot.date} ${slot.endTime}`, 'YYYY-MM-DD HH:mm:ss');
-
-                if (endTime.isSameOrBefore(fiveMinutesFromNow)) {
-                    const message = {
-                        notification: 'Your booking is 5 minutes away!',
-                        slotDetails: slot
-                    };
-
-                    res.write(`data: ${JSON.stringify(message)}\n\n`);
-                }
-            }
-        }
     } catch (error) {
         console.error('Error fetching booked slots:', error);
+        res.status(500).send('Internal Server Error');
     }
 };
 
-export { notifiyEndTime };
+export { notifyEndTime };
+

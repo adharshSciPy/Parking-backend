@@ -5,6 +5,7 @@ import userRoute from './src/routers/user.routes.js'
 import bookingRouter from './src/routers/booking.routes.js';
 import floorRouter from './src/routers/floor.routes.js';
 import notificationRouter from './src/routers/notification.routes.js';
+import { updateSlots } from './src/utils/slot.utils.js';
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use(cors())
 app.use(express.json({ limit: '16kb' }))
 app.use(express.urlencoded({ extended: true, limit: '16kb' }))
 app.use(cookieParser())
+
+// slot clearing function 
+setInterval(updateSlots, 60000);
 
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/floor', floorRouter)

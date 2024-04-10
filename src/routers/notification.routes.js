@@ -1,8 +1,8 @@
 import Router from 'express'
-import { notifiyEndTime } from '../controllers/notification.controller.js'
+import { notifyEndTime } from '../controllers/notification.controller.js'
 
 const notificationRouter = Router()
 
-notificationRouter.route('/notify-end-time').get(notifiyEndTime)
+notificationRouter.route('/notify-end-time').get(notifyEndTime)
 
 export default notificationRouter
