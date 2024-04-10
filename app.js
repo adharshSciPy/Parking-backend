@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import userRoute from './src/routers/user.routes.js'
 import bookingRouter from './src/routers/booking.routes.js';
 import floorRouter from './src/routers/floor.routes.js';
+import notificationRouter from './src/routers/notification.routes.js';
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use(cookieParser())
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/floor', floorRouter)
 app.use('/api/v1/booking', bookingRouter)
+app.use('/api/v1/notification', notificationRouter)
 
 export { app }
