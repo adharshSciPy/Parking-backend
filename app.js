@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }))
 app.use(cookieParser())
 
 // slot clearing function 
-setInterval(updateSlots, 60000);
+setInterval(updateSlots, 30000);
 
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/floor', floorRouter)

@@ -11,6 +11,6 @@ bookingRouter.route('/cancel-booking/:floorId/:slotId').put(cancelBooking)
 bookingRouter.route('/extend-booking/:floorId/:slotId').put(extendBooking)
 bookingRouter.route('/update-booking/:floorId/:slotId').put(updateBooking)
 bookingRouter.route('/get-bookings-byuser/:userId').get(getAllBookingsByUser)
-bookingRouter.route('/get-allbookings').get(getAllUsersBooking)
+bookingRouter.route('/get-allbookings').get(getAllUsersBooking)     
 
 export default bookingRouter
