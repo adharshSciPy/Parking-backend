@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import { app } from './app.js';
-import http from 'http';
+import { server } from './app.js';
 import connectMongoDb from './src/config/mongodb.js';
 
 dotenv.config({
@@ -8,7 +7,6 @@ dotenv.config({
 })
 
 const PORT = process.env.PORT;
-const server = http.createServer(app);
 
 connectMongoDb()
     .then(() => {
